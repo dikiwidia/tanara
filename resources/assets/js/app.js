@@ -12,11 +12,19 @@ import moment from 'moment';
 import Fuse from 'fuse.js';
 import VueProgressBar from 'vue-progressbar';
 import VueForm from 'vue-form';
+import VueFormWizard from 'vue-form-wizard';
+import 'vue-form-wizard/dist/vue-form-wizard.min.css';
+import VueFormGenerator from 'vue-form-generator';
+import 'vue-form-generator/dist/vfg.css';
 import vSelect from 'vue-select';
 import Datepicker from 'vuejs-datepicker';
 import VueCharts from 'vue-chartjs';
 import IEcharts from 'vue-echarts-v3/src/full.js';
 import miniToastr from 'mini-toastr';
+import VueSweetalert2 from 'vue-sweetalert2';
+import fullscreen from 'vue-fullscreen';
+import Qrcode from '@xkeshi/vue-qrcode';
+import BackToTop from 'vue-backtotop';
 
 import ChartjsBarChart from './add-ons/vue-chartjs/BarChart.js';
 import ChartjsBarHorizontalChart from './add-ons/vue-chartjs/BarHorizontalChart.js';
@@ -46,6 +54,7 @@ window._ = lodash;
 window.Fuse = Fuse;
 window.miniToastr = miniToastr;
 window.vSelect = vSelect;
+window.VueFormGenerator = VueFormGenerator;
 window.Datepicker = Datepicker;
 
 window.axios.defaults.headers.common = {
@@ -58,7 +67,14 @@ miniToastr.init();
 
 const router = new VueRouter({
   routes,
-  linkActiveClass: "active"
+  linkActiveClass: "active",
+  scrollBehavior (to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition
+    } else {
+      return { x: 0, y: 0 }
+    }
+  }
 })
 
 router.beforeEach((to, from, next) => {
@@ -76,8 +92,13 @@ router.afterEach((to, from) => {
 Vue.use(VueRouter);
 Vue.use(VueEvents);
 Vue.use(VueForm);
+Vue.use(VueFormWizard);
+Vue.use(VueFormGenerator);
 Vue.use(ServerTable, {}, false);
 Vue.use(ClientTable, {}, false);
+Vue.use(VueSweetalert2);
+Vue.use(fullscreen);
+Vue.use(BackToTop);
 
 Vue.use(VueProgressBar, {
   color: '#77b6ff',
@@ -96,6 +117,7 @@ Vue.use(VueProgressBar, {
 
 Vue.component('v-select', vSelect);
 Vue.component('datepicker', Datepicker);
+Vue.component('qrcode', Qrcode);
 Vue.component('chartjs-bar', ChartjsBarChart);
 Vue.component('chartjs-bar-horizontal', ChartjsBarHorizontalChart);
 Vue.component('chartjs-bubble', ChartjsBubbleChart);
